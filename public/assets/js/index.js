@@ -2,7 +2,7 @@ let noteForm;
 let title;
 let details;
 let saveBtn;
-let newNoteBtn;
+let createNoteBtn;
 let noteList;
 
 if (window.location.pathname === '/notes') {
@@ -10,7 +10,7 @@ if (window.location.pathname === '/notes') {
 	title = document.querySelector('.note-title');
 	details = document.querySelector('.note-textarea');
 	saveBtn = document.querySelector('.save-note');
-	newNoteBtn = document.querySelector('.new-note');
+	createNoteBtn = document.querySelector('.new-note');
 	clearBtn = document.querySelector('.clear-btn');
 	noteList = document.querySelectorAll('.list-container .list-group');
 }
@@ -58,13 +58,13 @@ const renderActiveNote = () => {
 	hide(clearBtn);
 
 	if (activeNote.id) {
-		show(newNoteBtn);
+		show(createNoteBtn);
 		title.setAttribute('readonly', true);
 		details.setAttribute('readonly', true);
 		title.value = activeNote.title;
 		details.value = activeNote.text;
 	} else {
-		hide(newNoteBtn);
+		hide(createNoteBtn);
 		title.removeAttribute('readonly');
 		details.removeAttribute('readonly');
 		title.value = '';
@@ -72,7 +72,7 @@ const renderActiveNote = () => {
 	}
 };
 
-const handleNoteSave = () => {
+const handleSave = () => {
 	const newNote = {
 		title: title.value,
 		text: details.value,
@@ -84,7 +84,7 @@ const handleNoteSave = () => {
 };
 
 // Delete the clicked note
-const handleNoteDelete = (e) => {
+const handleDelete = (e) => {
 	// Prevents the click listener for the list from being called when the button inside of it is clicked
 	e.stopPropagation();
 
@@ -137,7 +137,7 @@ const renderNoteList = async (notes) => {
 	let noteListItems = [];
 
 	// Returns HTML element with or without a delete button
-	const createLi = (text, delBtn = true) => {
+	const createLi = (text, deleteBtn = true) => {
 		const liEl = document.createElement('li');
 		liEl.classList.add('list-group-item');
 
@@ -148,7 +148,7 @@ const renderNoteList = async (notes) => {
 
 		liEl.append(spanEl);
 
-		if (delBtn) {
+		if (deleteBtn) {
 			const delBtnEl = document.createElement('i');
 			delBtnEl.classList.add(
 				'fas',
@@ -157,7 +157,7 @@ const renderNoteList = async (notes) => {
 				'text-danger',
 				'delete-note'
 			);
-			delBtnEl.addEventListener('click', handleNoteDelete);
+			delBtnEl.addEventListener('click', handleDelete);
 
 			liEl.append(delBtnEl);
 		}
@@ -185,8 +185,8 @@ const renderNoteList = async (notes) => {
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
 if (window.location.pathname === '/notes') {
-	saveBtn.addEventListener('click', handleNoteSave);
-	newNoteBtn.addEventListener('click', handleNewNoteView);
+	saveBtn.addEventListener('click', handleSave);
+	createNoteBtn.addEventListener('click', handleNewNoteView);
 	clearBtn.addEventListener('click', renderActiveNote);
 	noteForm.addEventListener('input', handleRenderBtns);
 }
