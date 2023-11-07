@@ -3,7 +3,6 @@ const fs = require('fs');
 
 // give uuids
 const uuidv1 = require('uuid/v1');
-
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
@@ -35,7 +34,7 @@ class Store {
 			throw new Error("Note 'title' and 'text' cannot be blank");
 		}
 
-		const note = { title, text, id: uuidv1() };
+		const newNote = { title, text, id: uuidv1() };
 
 		return this.getNotes()
 			.then((notes) => [...notes, note])

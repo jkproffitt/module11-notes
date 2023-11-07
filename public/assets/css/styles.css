@@ -76,3 +76,9 @@ body {
   padding: 20px;
   cursor: pointer;
 }
+.clear-btn {
+  background: white;
+}
+.save-btn {
+  background: #204459;
+}
